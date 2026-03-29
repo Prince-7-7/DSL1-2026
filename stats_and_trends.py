@@ -26,9 +26,26 @@ def create_dataframes(file):
 
     """
     #creates a dataframe from the file
-    df = pd.read_csv(file)
+    table = pd.read_csv(file)
+    
+    #cleaning the data
+    df = table.dropna(axis='columns', how='all')
+    df = df.dropna(axis='rows', thresh=5)
+    
+    # print(table2)
+    # clean = []
+    # for i in table2.columns:
+    #     print(i)
+    #     if table2[i].dtype == table2["Country Code"].dtype:
+    #         clean.append(i)
+            
+    # df = table2.drop(clean[1:], axis=1)
+    
     #creates a transposed dataframe of the initial database
     df_transpose = df.transpose()
+    df_transpose.columns = df_transpose.iloc[0]
+    #df_transpose.drop(df_transpose.iloc[0])
+    print(df_transpose.head())
     
     return df, df_transpose
 
@@ -37,7 +54,12 @@ def create_dataframes(file):
     
 #%%
 #test
-df, df_transpose = create_dataframes(r"C:\Users\pb25aap\OneDrive - University of Hertfordshire\Data Science Laboratory 1\lerwickdata.csv")
+df, df_transpose = create_dataframes(r"C:\Users\pb25aap\OneDrive - University of Hertfordshire\Data Science Laboratory 1\stats & trends assignment\agricultural_land.csv")
 
+print(df.head())
+print(df_transpose.head())
+print()
 print(df.describe())
 print(df_transpose.describe())
+
+#%%
